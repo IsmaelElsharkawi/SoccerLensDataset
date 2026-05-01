@@ -1,0 +1,432 @@
+{
+    "@context": {
+        "@language": "en",
+        "@vocab": "https://schema.org/",
+        "citeAs": "cr:citeAs",
+        "column": "cr:column",
+        "conformsTo": "dct:conformsTo",
+        "cr": "http://mlcommons.org/croissant/",
+        "data": {
+            "@id": "cr:data",
+            "@type": "@json"
+        },
+        "dataBiases": "cr:dataBiases",
+        "dataCollection": "cr:dataCollection",
+        "dataType": {
+            "@id": "cr:dataType",
+            "@type": "@vocab"
+        },
+        "dct": "http://purl.org/dc/terms/",
+        "extract": "cr:extract",
+        "field": "cr:field",
+        "fileProperty": "cr:fileProperty",
+        "fileObject": "cr:fileObject",
+        "fileSet": "cr:fileSet",
+        "format": "cr:format",
+        "includes": "cr:includes",
+        "isEnumeration": "cr:isEnumeration",
+        "isLiveDataset": "cr:isLiveDataset",
+        "jsonPath": "cr:jsonPath",
+        "key": "cr:key",
+        "md5": "cr:md5",
+        "parentField": "cr:parentField",
+        "path": "cr:path",
+        "personalSensitiveInformation": "cr:personalSensitiveInformation",
+        "recordSet": "cr:recordSet",
+        "references": "cr:references",
+        "regex": "cr:regex",
+        "repeated": "cr:repeated",
+        "replace": "cr:replace",
+        "sc": "https://schema.org/",
+        "separator": "cr:separator",
+        "source": "cr:source",
+        "subField": "cr:subField",
+        "transform": "cr:transform"
+    },
+    "@type": "sc:Dataset",
+    "conformsTo": "http://mlcommons.org/croissant/1.0",
+    "name": "SoccerLens",
+    "description": "SoccerLens is a soccer broadcast video dataset providing per-second bounding box annotations for on-screen graphical overlays (labels and visual cues) alongside natural language commentary. It contains 2,711 annotated frames drawn from 200 soccer match clips, with 5,189 bounding box annotations across three categories: small label, large label, and visual cue. Each video clip is paired with a match commentary caption and an anonymized version that masks player and team names.",
+    "license": "https://creativecommons.org/licenses/by-nc/4.0/",
+    "url": "https://github.com/z004kjmt/SoccerLensDataset",
+    "version": "1.0",
+    "distribution": [
+        {
+            "@type": "cr:FileObject",
+            "@id": "annotations-coco-file",
+            "name": "annotations-coco.json",
+            "description": "COCO-format bounding box annotations for 2,711 video frames across 200 soccer match clips. Contains info, images, annotations, and categories fields following the MS-COCO object detection format.",
+            "contentUrl": "annotations-coco.json",
+            "encodingFormat": "application/json",
+            "sha256": "192cec95bdea2f278cc2e54478605c1d2b6d1bc831e29a8e93ad4d864a6c038a"
+        },
+        {
+            "@type": "cr:FileObject",
+            "@id": "selected-videos-file",
+            "name": "selected_videos_for_annotations.json",
+            "description": "Metadata for the 200 annotated soccer match video clips, including the video path, action caption, broadcast commentary text, anonymized commentary text, league name, and match identifier.",
+            "contentUrl": "selected_videos_for_annotations.json",
+            "encodingFormat": "application/json",
+            "sha256": "0ffc6ed2e86fe9b06292a62403eb94a8bd0d8f1240e6cb6cf464f2c77b30d9b5"
+        }
+    ],
+    "recordSet": [
+        {
+            "@type": "cr:RecordSet",
+            "@id": "categories",
+            "name": "categories",
+            "description": "Annotation category definitions used in the bounding box annotations.",
+            "field": [
+                {
+                    "@type": "cr:Field",
+                    "@id": "categories/id",
+                    "name": "id",
+                    "description": "Integer category identifier.",
+                    "dataType": "sc:Integer",
+                    "source": {
+                        "fileObject": {
+                            "@id": "annotations-coco-file"
+                        },
+                        "extract": {
+                            "jsonPath": "$.categories[*].id"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "categories/name",
+                    "name": "name",
+                    "description": "Category name. One of: 'small label', 'large label', 'visual cue'.",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "fileObject": {
+                            "@id": "annotations-coco-file"
+                        },
+                        "extract": {
+                            "jsonPath": "$.categories[*].name"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "@type": "cr:RecordSet",
+            "@id": "images",
+            "name": "images",
+            "description": "Metadata for each annotated video frame (treated as an image in COCO format). Frames are extracted at one-second intervals from broadcast soccer video at 1280×720 resolution.",
+            "field": [
+                {
+                    "@type": "cr:Field",
+                    "@id": "images/id",
+                    "name": "id",
+                    "description": "Unique frame identifier composed of the video path and the second index (e.g. 'league/match/clip.mp4_7').",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "fileObject": {
+                            "@id": "annotations-coco-file"
+                        },
+                        "extract": {
+                            "jsonPath": "$.images[*].id"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "images/file_name",
+                    "name": "file_name",
+                    "description": "Relative path to the JPEG frame file.",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "fileObject": {
+                            "@id": "annotations-coco-file"
+                        },
+                        "extract": {
+                            "jsonPath": "$.images[*].file_name"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "images/video_id",
+                    "name": "video_id",
+                    "description": "Relative path of the source video clip.",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "fileObject": {
+                            "@id": "annotations-coco-file"
+                        },
+                        "extract": {
+                            "jsonPath": "$.images[*].video_id"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "images/second",
+                    "name": "second",
+                    "description": "Timestamp (in seconds) within the video clip at which the frame was extracted.",
+                    "dataType": "sc:Integer",
+                    "source": {
+                        "fileObject": {
+                            "@id": "annotations-coco-file"
+                        },
+                        "extract": {
+                            "jsonPath": "$.images[*].second"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "images/width",
+                    "name": "width",
+                    "description": "Frame width in pixels (1280).",
+                    "dataType": "sc:Integer",
+                    "source": {
+                        "fileObject": {
+                            "@id": "annotations-coco-file"
+                        },
+                        "extract": {
+                            "jsonPath": "$.images[*].width"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "images/height",
+                    "name": "height",
+                    "description": "Frame height in pixels (720).",
+                    "dataType": "sc:Integer",
+                    "source": {
+                        "fileObject": {
+                            "@id": "annotations-coco-file"
+                        },
+                        "extract": {
+                            "jsonPath": "$.images[*].height"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "@type": "cr:RecordSet",
+            "@id": "annotations",
+            "name": "annotations",
+            "description": "Bounding box annotations in COCO format. Each annotation links a frame to a category and provides an axis-aligned bounding box in [x, y, width, height] format with pixel coordinates.",
+            "field": [
+                {
+                    "@type": "cr:Field",
+                    "@id": "annotations/id",
+                    "name": "id",
+                    "description": "Unique annotation identifier.",
+                    "dataType": "sc:Integer",
+                    "source": {
+                        "fileObject": {
+                            "@id": "annotations-coco-file"
+                        },
+                        "extract": {
+                            "jsonPath": "$.annotations[*].id"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "annotations/image_id",
+                    "name": "image_id",
+                    "description": "Identifier of the frame this annotation belongs to. References images/id.",
+                    "dataType": "sc:Text",
+                    "references": {
+                        "field": {
+                            "@id": "images/id"
+                        }
+                    },
+                    "source": {
+                        "fileObject": {
+                            "@id": "annotations-coco-file"
+                        },
+                        "extract": {
+                            "jsonPath": "$.annotations[*].image_id"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "annotations/category_id",
+                    "name": "category_id",
+                    "description": "Category of the annotated object. References categories/id.",
+                    "dataType": "sc:Integer",
+                    "references": {
+                        "field": {
+                            "@id": "categories/id"
+                        }
+                    },
+                    "source": {
+                        "fileObject": {
+                            "@id": "annotations-coco-file"
+                        },
+                        "extract": {
+                            "jsonPath": "$.annotations[*].category_id"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "annotations/bbox",
+                    "name": "bbox",
+                    "description": "Axis-aligned bounding box in COCO format: [x_min, y_min, width, height] in pixel coordinates.",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "fileObject": {
+                            "@id": "annotations-coco-file"
+                        },
+                        "extract": {
+                            "jsonPath": "$.annotations[*].bbox"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "annotations/iscrowd",
+                    "name": "iscrowd",
+                    "description": "COCO iscrowd flag (0 for all annotations in this dataset).",
+                    "dataType": "sc:Integer",
+                    "source": {
+                        "fileObject": {
+                            "@id": "annotations-coco-file"
+                        },
+                        "extract": {
+                            "jsonPath": "$.annotations[*].iscrowd"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "annotations/no_roi",
+                    "name": "no_roi",
+                    "description": "Boolean flag indicating whether the annotation has no region of interest.",
+                    "dataType": "sc:Boolean",
+                    "source": {
+                        "fileObject": {
+                            "@id": "annotations-coco-file"
+                        },
+                        "extract": {
+                            "jsonPath": "$.annotations[*].no_roi"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "annotations/label",
+                    "name": "label",
+                    "description": "Human-readable category label string.",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "fileObject": {
+                            "@id": "annotations-coco-file"
+                        },
+                        "extract": {
+                            "jsonPath": "$.annotations[*].label"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "@type": "cr:RecordSet",
+            "@id": "videos",
+            "name": "videos",
+            "description": "Metadata for the 200 annotated soccer match video clips, including action caption, broadcast commentary, and match context.",
+            "field": [
+                {
+                    "@type": "cr:Field",
+                    "@id": "videos/video",
+                    "name": "video",
+                    "description": "Relative path of the video clip (league/match/clip.mp4).",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "fileObject": {
+                            "@id": "selected-videos-file"
+                        },
+                        "extract": {
+                            "jsonPath": "$[*].video"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "videos/caption",
+                    "name": "caption",
+                    "description": "Short action label for the clip (e.g. 'corner', 'goal', 'offside').",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "fileObject": {
+                            "@id": "selected-videos-file"
+                        },
+                        "extract": {
+                            "jsonPath": "$[*].caption"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "videos/comments_text",
+                    "name": "comments_text",
+                    "description": "Original broadcast commentary sentence describing the action, including player and team names.",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "fileObject": {
+                            "@id": "selected-videos-file"
+                        },
+                        "extract": {
+                            "jsonPath": "$[*].comments_text"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "videos/comments_text_anonymized",
+                    "name": "comments_text_anonymized",
+                    "description": "Anonymized commentary sentence with player names replaced by [PLAYER] and team names replaced by [TEAM].",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "fileObject": {
+                            "@id": "selected-videos-file"
+                        },
+                        "extract": {
+                            "jsonPath": "$[*].comments_text_anonymized"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "videos/league",
+                    "name": "league",
+                    "description": "League and season identifier (e.g. 'germany_bundesliga_2016-2017').",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "fileObject": {
+                            "@id": "selected-videos-file"
+                        },
+                        "extract": {
+                            "jsonPath": "$[*].league"
+                        }
+                    }
+                },
+                {
+                    "@type": "cr:Field",
+                    "@id": "videos/match",
+                    "name": "match",
+                    "description": "Match identifier including date, time, and teams (e.g. '2016-10-01 - 19-30 Bayer Leverkusen 2 - 0 Dortmund').",
+                    "dataType": "sc:Text",
+                    "source": {
+                        "fileObject": {
+                            "@id": "selected-videos-file"
+                        },
+                        "extract": {
+                            "jsonPath": "$[*].match"
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
