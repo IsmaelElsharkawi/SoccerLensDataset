@@ -41,22 +41,31 @@
         "separator": "cr:separator",
         "source": "cr:source",
         "subField": "cr:subField",
-        "transform": "cr:transform"
+        "transform": "cr:transform",
+        "rai": "http://mlcommons.org/croissant/RAI/",
+        "prov": "http://www.w3.org/ns/prov#"
     },
     "@type": "sc:Dataset",
     "conformsTo": "http://mlcommons.org/croissant/1.0",
     "name": "SoccerLens",
     "description": "SoccerLens is a soccer broadcast video dataset providing per-second bounding box annotations for on-screen graphical overlays (labels and visual cues) alongside natural language commentary. It contains 2,711 annotated frames drawn from 200 soccer match clips, with 5,189 bounding box annotations across three categories: small label, large label, and visual cue. Each video clip is paired with a match commentary caption and an anonymized version that masks player and team names.",
     "license": "https://creativecommons.org/licenses/by-nc/4.0/",
-    "url": "https://github.com/z004kjmt/SoccerLensDataset",
+    "url": "https://anonymous.4open.science/r/SoccerLensDataset-564E",
     "version": "1.0",
+    "rai:dataLimitations": "SoccerLens covers 200 clips from a single data provider (SoccerNet) spanning a limited set of European leagues and seasons (2014–2019). Broadcast angle, resolution, and overlay styles vary by broadcaster and may not generalise to other soccer feeds, sports, or non-broadcast video. The dataset does not include audio or temporal context beyond isolated one-second frames.",
+    "rai:dataBiases": "Clips were sampled from SoccerNet and may over-represent top-tier European leagues (Bundesliga, Premier League, La Liga, Serie A, Ligue 1). Commentary text reflects the perspective and potential biases of original broadcast commentators. Anonymization replaces only player and team name entities and may miss other identifying references.",
+    "rai:personalSensitiveInformation": "Original commentary sentences contain real player and team names sourced from public broadcast commentary. An anonymized version is provided in which all player names are replaced with [PLAYER] and team names with [TEAM]. No other personal or sensitive information (e.g. biometrics, faces, locations of individuals) is included.",
+    "rai:dataUseCases": "Intended use cases include: (1) training and evaluating object detection models for soccer broadcast overlay elements; (2) explainability research on vision-language models applied to sports video; (3) benchmarking attribution/saliency methods on annotated broadcast frames. Not intended for player identification, surveillance, or any use that re-identifies individuals from anonymized data.",
+    "rai:dataSocialImpact": "SoccerLens supports research on explainable AI for sports analytics, which can improve transparency of automated video understanding systems used in media and broadcasting. Potential negative impacts are limited given the public-broadcast origin of the data; however, re-identification of anonymized commentary or misuse for player tracking would be inappropriate uses.",
+    "rai:hasSyntheticData": false,
+    "prov:wasGeneratedBy": "Bounding box annotations were created by human annotators labeling per-second keyframes extracted from SoccerNet broadcast video clips. Commentary text is derived from the SoccerNet commentary dataset. Anonymization was performed with a named-entity replacement script.",
     "distribution": [
         {
             "@type": "cr:FileObject",
             "@id": "annotations-coco-file",
             "name": "annotations-coco.json",
             "description": "COCO-format bounding box annotations for 2,711 video frames across 200 soccer match clips. Contains info, images, annotations, and categories fields following the MS-COCO object detection format.",
-            "contentUrl": "annotations-coco.json",
+            "contentUrl": "https://anonymous.4open.science/r/SoccerLensDataset-564E/annotations-coco.json",
             "encodingFormat": "application/json",
             "sha256": "192cec95bdea2f278cc2e54478605c1d2b6d1bc831e29a8e93ad4d864a6c038a"
         },
@@ -65,7 +74,7 @@
             "@id": "selected-videos-file",
             "name": "selected_videos_for_annotations.json",
             "description": "Metadata for the 200 annotated soccer match video clips, including the video path, action caption, broadcast commentary text, anonymized commentary text, league name, and match identifier.",
-            "contentUrl": "selected_videos_for_annotations.json",
+            "contentUrl": "https://anonymous.4open.science/r/SoccerLensDataset-564E/selected_videos_for_annotations.json",
             "encodingFormat": "application/json",
             "sha256": "0ffc6ed2e86fe9b06292a62403eb94a8bd0d8f1240e6cb6cf464f2c77b30d9b5"
         }
