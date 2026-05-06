@@ -48,7 +48,7 @@
     "@type": "sc:Dataset",
     "conformsTo": "http://mlcommons.org/croissant/1.0",
     "name": "SoccerLens",
-    "description": "SoccerLens is a soccer broadcast video dataset providing per-second bounding box annotations for on-screen graphical overlays (labels and visual cues) alongside natural language commentary. It contains 2,711 annotated frames drawn from 200 soccer match clips, with 5,189 bounding box annotations across three categories: small label, large label, and visual cue. Each video clip is paired with a match commentary caption and an anonymized version that masks player and team names.",
+    "description": "SoccerLens is a soccer broadcast video dataset providing per-second bounding box annotations for on-screen graphical overlays (labels and visual cues) alongside natural language commentary. It contains 2,209 annotated frames drawn from 200 soccer match clips, with 4,687 bounding box annotations across three categories: Primary Cue, Secondary Cue, and Common Cue. Each video clip is paired with a match commentary caption and an anonymized version that masks player and team names.",
     "license": "https://creativecommons.org/licenses/by-nc/4.0/",
     "url": "https://anonymous.4open.science/r/SoccerLensDataset-564E",
     "version": "1.0",
@@ -64,7 +64,7 @@
             "@type": "cr:FileObject",
             "@id": "annotations-coco-file",
             "name": "annotations-coco.json",
-            "description": "COCO-format bounding box annotations for 2,711 video frames across 200 soccer match clips. Contains info, images, annotations, and categories fields following the MS-COCO object detection format.",
+            "description": "COCO-format bounding box annotations for 2,209 annotated video frames across 200 soccer match clips. Contains info, images, annotations, and categories fields following the MS-COCO object detection format.",
             "contentUrl": "https://anonymous.4open.science/r/SoccerLensDataset-564E/annotations-coco.json",
             "encodingFormat": "application/json",
             "sha256": "192cec95bdea2f278cc2e54478605c1d2b6d1bc831e29a8e93ad4d864a6c038a"
@@ -105,7 +105,7 @@
                     "@type": "cr:Field",
                     "@id": "categories/name",
                     "name": "name",
-                    "description": "Category name. One of: 'small label', 'large label', 'visual cue'.",
+                    "description": "Category name. One of: 'Primary Cue', 'Secondary Cue', 'Common Cue'.",
                     "dataType": "sc:Text",
                     "source": {
                         "fileObject": {
